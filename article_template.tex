@@ -1,7 +1,16 @@
-\documentclass{styles/llncs} 
+\documentclass[twocolumn]{article} 
+%use IEEE Computer Science Society style 
+\usepackage{styles/latex8}
+%Setting the graphicspath
 \usepackage{graphicx}
-\graphicspath{{images/}} %Setting the graphicspath
+\graphicspath{{images/}} 
 
+%print institute affiliation
+\usepackage[affil-it]{authblk}
+%draw figures
+\usepackage{tikz}
+%draw gantt charts
+\usepackage{styles/gantt}
 %draw horizontal  rules in tables
 \usepackage{booktabs}
 %enable multipage table header repeat
@@ -14,35 +23,29 @@
 \usepackage{fvextra}
 %enable math equations
 \usepackage{amsmath}
-
+%drawing algorithms
 \usepackage{algorithm}
 \usepackage{algorithmic}
 
 %output code listings : 3 packages
 \usepackage{listings}
-\usepackage[T1]{fontenc}
-\usepackage{lmodern}
+%\usepackage[T1]{fontenc}
+%\usepackage{lmodern}
+
 %creates a box named \codebox to store code listings
 \newsavebox{\codebox}% For storing  code listings
-
-%adjust size of code listings automatically in beamer
-\usepackage{adjustbox}
-
-%draw figures
-\usepackage{tikz}
-%draw gantt charts
-\usepackage{gantt}
+%create \defcolor command to point to color of gantt bar
 \newcommand{\defcolor}{red}
-%use \Verbatim command instead of \verbatim
-%\usepackage{fancyvrb}
-
+%create \flow command to point to rightleftharpoons character
 \newcommand{\flow}{\rightleftharpoons}
 
 \begin{document}
-\title{My First LaTeX Document}
-\author{Nauman}
-
+\title{Template  LaTeX Document}
+\author{Valerii Klymchuk}
+\affil{Department of Mathematics, University of California, Berkeley}
+%\institute{Centre for Modern Templates}
 \maketitle
+
 \begin{abstract}
 Smartphones are increasingly being used to store personal information as well as to access sensitive data from the Internet and the cloud. Establishment of the identity of a user requesting information from smartphones is a prerequisite for  secure systems in such scenarios. In the past, keystroke-based user identifiation has been successfully deployed on production-level mobile devices to mitigate the risks associated with naive username/password based authentication. However, these approaches have two major limitations: they are not applicable to services where authentication occurs outside the domain of the mobile
 device such as web-based services; and they often overly tax the limited computational capabilities of mobile devices.
@@ -70,88 +73,81 @@ More information here.
 To insert a figure, you can use the TeXnicecenter menus. 
 \begin{figure}
 	\centering
-		\includegraphics[width=1\linewidth]{att-models-base.pdf}
+		\includegraphics[width=\linewidth]{att-models-base.pdf}
 	\caption{My First Figure}
 	\label{fig:att-models-base}
 \end{figure}
 
 
+
+\begin{figure}
+	\centering
+	\begin{tikzpicture}	
+	\tikzset{
+		hcirc/.style={
+			draw, circle, fill=blue!5
+		},
+		xcirc/.style={
+			hcirc, fill=gray!5
+		}
+	}
+	
+	\foreach \i in {1, ..., 3}{
+		\node [hcirc] (h\i) at (\i*2,3) {$h^\i$};
+	}
+	
+	\foreach \i in {1, ..., 3}{
+		\node [xcirc] (x\i) at (\i*2,0) {$x_\i$};
+	}
+	
+	\foreach \i in {1, ..., 3}{
+		\foreach \v in {1, ..., 3}{
+			\path (h\i) edge [draw] (x\v);
+		}
+	}
+	\end{tikzpicture}	
+	\caption{Drawn tikzpicture} \label{fig:M1}
+\end{figure}
+
 Now for a table! 
 
-\begin{table}
-\tablefirsthead{\toprule  & \bf document class  &\bf bibliography style &   \\ \midrule}
-\tablehead{\midrule &\bf document class &\bf bibliography style &  \\ \midrule}
-\tablecaption{Sample multipage table with repeating header}
-\label{tab:MyFirstTable}
-\begin{xtabular}{
-		p{0.25\linewidth}
-		p{0.25\linewidth}
-		p{0.25\linewidth}
-		m{0.25\linewidth}
-	}
-		\hline 
-		Text 1 & Text 2 & Text 3 & Text 4   \\ \hline
-		1      &      2 & 3      & 4 \\	\hline		
-		\bottomrule
-\end{xtabular}
-%\caption{Sample multipage table with repeating header}
-%\label{tab:MyFirstTable}
-\end{table}
-
-\subsection{Cross-references} 
-Some text here that wants to refer to Table~\ref{tab:MyFirstTable}. You can also refer to the Figure~\ref{fig:att-models-base}. When you want to refer to a previous section, you can use the \verb|\ref| command again. Section~\ref{sec:background} and Section~\ref{sec:drilled-down}. 
-
-\input{subfile} 
-
-\section{Bibliography styles} 
-Using and managing bibliographies in \LaTeX\ is very easy. These are the steps required to use them: 
-
-\begin{enumerate}
-	\item Create a main document file 
-	\item Collect bibliography entries in a \verb|.bib| file. For this: 
-	\begin{itemize}
-		\item Get the bibliography from Google Scholar/ACM or where ever or 
-		\item Write the entry yourself. 
-	\end{itemize}
-	\item Add a \verb|\bibliographystyle| and a \verb|\bibliography| command to your document. 
-	\item \emph{Cite} the references where you need using the key. 
-	\item Build the file a couple of times to get the citations in the main document. 
-\end{enumerate}
-
+\medskip
 %\begin{table}
 \tablefirsthead{
 \toprule  & \bf document class  &\bf bibliography style &   \\ \midrule}
 \tablehead{
+\multicolumn{4}{c}{\text{\tablename~\thetable{}  continued }} \\
 \midrule &\bf document class &\bf bibliography style &  \\ \midrule}
-\tablecaption{Document and bibliograpghy styles with repeating header}
+\tablecaption{Document and bibliograpghy styles}
+\label{tab:MyFirstTable}
 \begin{xtabular}{
-		p{0.27\linewidth}
-		p{0.27\linewidth}
-		p{0.23\linewidth}
-		m{0.23\linewidth}
-	}
+		%@{}	
+		p{0.21\linewidth}
+		p{0.26\linewidth}
+		p{0.21\linewidth}
+		p{0.11\linewidth}
+	    %@{}
+    }
 	Institute of Electrical and Electronics Engineers &\Verb|IEEEtran| & \Verb|IEEEtran|& \raisebox{-0.5\totalheight}{\includegraphics[width=1\linewidth]{ieee.png}}\\ 
 	\midrule
 	Association for Computing Machinery & \Verb|sig-alternate|  & \Verb|plain| & \raisebox{-0.5\totalheight}{\includegraphics[width=1\linewidth]{acm.jpeg}}   \\ 
 	\midrule
-	Lecture Notes in Computer Science& \Verb|llncs|& \Verb|splncs|& \raisebox{-0.5\totalheight}{\includegraphics[width=1\linewidth]{llncs.png}} \\ 
+	Lecture Notes in Computer Science& \Verb|llncs|& \Verb|llncs|& \raisebox{-0.5\totalheight}{\includegraphics[width=1\linewidth]{llncs.png}} \\ 
 	\midrule
 	IEEE Computer Society                             & {\Verb|[twocolumn]| \verb|{article}|  \Verb|\usepackage|  \Verb|{latex8}|} & \Verb|IEEEtran|                & \raisebox{-0.5\totalheight}{\includegraphics[width=1\linewidth]{ieeecs.jpg}} \\ 
 	\midrule
 	General & \Verb|article|  & \Verb|plain|  &  \\ 
 	\bottomrule
 \end{xtabular}
-%\caption{Document and bibliograpghy styles with repeating header}
-%\label{tab:MyFirstTable1}
 %\end{table}
+%\caption{Sample multipage table with repeating header}
+%\label{tab:MyFirstTable}
 
 
-\section{Bibliography citations}
-We are going to use this section to put some text in our document and at some points, we are going to inset a reference. This, for example, is going to turn into a reference~\cite{lecun2015deep}. This ~\cite{webster1984specific} is yet another reference. And so on.~\cite{nauman2010apex}
+\subsection{Cross-references} 
+Some text here that wants to refer to Table~\ref{tab:MyFirstTable}. You can also refer to the Figure~\ref{fig:att-models-base}. When you want to refer to a previous section, you can use the \verb|\ref| command again. Section~\ref{sec:background} and Section~\ref{sec:drilled-down}. 
 
-This is going to be anew paragraph.
-
-
+\input{subfile} 
 
 
 \section{Displaying Mathematics}
@@ -248,85 +244,10 @@ You might come across situations where you need to find new symbols. For this, y
 \[ x \flow y \]
 
 
-\section{Algorithms}
-
-\begin{algorithm}
-	\begin{algorithmic}[2]
-		\REQUIRE{Randomly populated array}
-		\ENSURE{Sorted array}
-		\IF{$i\leq0$}
-		\STATE $i\gets1$
-		\ELSE 
-		\IF{$i\geq0$} \label{line:impline}
-		\FOR{$j=0$ \TO $10$}
-		\STATE blah()
-		\STATE carryOutSomeProcessing() \label{line:mostimp}
-		\ENDFOR
-		\ENDIF
-		\ENDIF
-		\RETURN i
-	\end{algorithmic}
-	\caption{My First Simple Algorithm}
-	\label{algo:first}
-\end{algorithm}
-
-And of course, we can refer to the algorithm using \verb|\ref|: See Algorithm~\ref{algo:first} but the good thing is we can also refer to a specific line e.g. Line~\ref{line:impline} or Line~\ref{line:mostimp}.
-
-
-\section{Code listings}
-
-\lstset{language=c++}
-\lstset{caption=Some C++ Code}
-%\begin{adjustbox}{width=0.418\textwidth}
-\begin{lstlisting}[frame=single]{}
-for(i = 0; i < 10; i++){
-// increment the pointer
-*p++ = i;
-}
-\end{lstlisting}
-%\end{adjustbox}
-
-
-%output code from text file
-%\lstset{language=java,frame=single,basicstyle=\ttfamily,numbers=left}
-%\lstinputlisting[caption=Signing,label=lst:lowertri]{Sign.java}
-
-\section{Drawing special figures}
-
-\begin{figure}
-	\centering
-	\begin{tikzpicture}	
-	\tikzset{
-		hcirc/.style={
-			draw, circle, fill=blue!5
-		},
-		xcirc/.style={
-			hcirc, fill=gray!5
-		}
-	}
-	
-	\foreach \i in {1, ..., 3}{
-		\node [hcirc] (h\i) at (\i*2,3) {$h^\i$};
-	}
-	
-	\foreach \i in {1, ..., 3}{
-		\node [xcirc] (x\i) at (\i*2,0) {$x_\i$};
-	}
-	
-	\foreach \i in {1, ..., 3}{
-		\foreach \v in {1, ..., 3}{
-			\path (h\i) edge [draw] (x\v);
-		}
-	}
-	\end{tikzpicture}	
-	\caption{M1} \label{fig:M1}
-\end{figure}
-
-And we can refer to Listing~\ref{lst:lowertri} in text.
 
 \section{Gantt chart}
 
-\begin{figure}
+\begin{figure*}
 	\centering
 	\resizebox{\linewidth}{!}{
 		\begin{gantt}[drawledgerline=true]{11}{24}
@@ -360,14 +281,122 @@ And we can refer to Listing~\ref{lst:lowertri} in text.
 			\ganttbar[color=blue]{Thesis and Paper Writing}{0}{24}
 		\end{gantt}
 	}
-\caption{Gantt1} \label{fig:G1}
-\end{figure}
+	\caption{Gantt Chart} \label{fig:G1}
+\end{figure*}
+
+\section{Algorithms}
+
+\begin{algorithm}
+	\begin{algorithmic}[2]
+		\REQUIRE{Randomly populated array}
+		\ENSURE{Sorted array}
+		\IF{$i\leq0$}
+		\STATE $i\gets1$
+		\ELSE 
+		\IF{$i\geq0$} \label{line:impline}
+		\FOR{$j=0$ \TO $10$}
+		\STATE blah()
+		\STATE carryOutSomeProcessing() \label{line:mostimp}
+		\ENDFOR
+		\ENDIF
+		\ENDIF
+		\RETURN i
+	\end{algorithmic}
+	\caption{My First Simple Algorithm}
+	\label{algo:first}
+\end{algorithm}
+
+And of course, we can refer to the algorithm using \verb|\ref|: See Algorithm~\ref{algo:first} but the good thing is we can also refer to a specific line e.g. Line~\ref{line:impline} or Line~\ref{line:mostimp}.
+
+
+\section{Code listings}
+
+\lstset{language=c++, float=H}
+\lstset{caption=Some C++ Code}
+%\begin{adjustbox}{width=0.418\textwidth}
+\begin{lstlisting}[frame=single, label=lst:lowertri]{}
+for(i = 0; i < 10; i++){
+// increment the pointer
+*p++ = i;
+}
+\end{lstlisting}
+
+%\end{adjustbox}
+
+
+%output code from text file
+%\lstset{language=java,frame=single,basicstyle=\ttfamily,numbers=left}
+%\lstinputlisting[caption=Signing,label=lst:lowertri]{Sign.java}
+
+
+And we can refer to Listing~\ref{lst:lowertri} in text.
+
+
+
+\section{Bibliography styles} 
+
+The following table contains specifications for document style and bibliography style as requested by major publications.
+
+%\begin{table}
+\tablefirsthead{
+	\toprule  & \bf document class  &\bf bibliography style &   \\ \midrule}
+\tablehead{
+	\multicolumn{4}{c}{\text{\tablename~\thetable{}  continued }} \\
+	\midrule &\bf document class &\bf bibliography style &  \\ \midrule}
+\tablecaption{Document and bibliograpghy styles}
+\label{tab:MyFirstTable1}
+\begin{xtabular}{
+		p{0.20\linewidth}
+		p{0.26\linewidth}
+		p{0.19\linewidth}
+		m{0.11\linewidth}
+	}
+	Institute of Electrical and Electronics Engineers &\Verb|IEEEtran| & \Verb|IEEEtran|& \raisebox{-0.5\totalheight}{\includegraphics[width=1\linewidth]{ieee.png}}\\ 
+	\midrule
+	Association for Computing Machinery & \Verb|sig-alternate|  & \Verb|plain| & \raisebox{-0.5\totalheight}{\includegraphics[width=1\linewidth]{acm.jpeg}}   \\ 
+	\midrule
+	Lecture Notes in Computer Science& \Verb|llncs|& \Verb|llncs|& \raisebox{-0.5\totalheight}{\includegraphics[width=1\linewidth]{llncs.png}} \\ 
+	\midrule
+	IEEE Computer Society                             & {\Verb|[twocolumn]| \verb|{article}|  \Verb|\usepackage|  \Verb|{latex8}|} & \Verb|IEEEtran|                & \raisebox{-0.5\totalheight}{\includegraphics[width=1\linewidth]{ieeecs.jpg}} \\ 
+	\midrule
+	General & \Verb|article|  & \Verb|plain|  &  \\ 
+	\bottomrule
+\end{xtabular}
+%\caption{Document and bibliograpghy styles with repeating header}
+%\label{tab:MyFirstTable1}
+%\end{table}
+
+\medskip
+Using and managing bibliographies in \LaTeX\ is very easy. 
+These are the steps required to use them: 
+
+\begin{enumerate}
+	\item Create a main document file 
+	\item Collect bibliography entries in a \verb|.bib| file. For this: 
+	\begin{itemize}
+		\item Get the bibliography from Google Scholar/ACM or where ever or 
+		\item Write the entry yourself. 
+	\end{itemize}
+	\item Add a \verb|\bibliographystyle| and a \verb|\bibliography| command to your document. 
+	\item \emph{Cite} the references where you need using the key. 
+	\item Build the file a couple of times to get the citations in the main document. 
+\end{enumerate}
+
+
+
+
+\section{Bibliography citations}
+We are going to use this section to put some text in our document and at some points, we are going to inset a reference table~\ref{tab:MyFirstTable1}. This, for example, is going to turn into a reference~\cite{lecun2015deep}. This ~\cite{webster1984specific} is yet another reference. And so on.~\cite{nauman2010apex}
+
+This is going to be a new paragraph.
+
 
 
 % -------------------------------------------------------------------
 % add bibliography-related commands here 
 
-\bibliographystyle{splncs}
+
 \bibliography{bibfile}
+\bibliographystyle{IEEEtran}
 
 \end{document} 
